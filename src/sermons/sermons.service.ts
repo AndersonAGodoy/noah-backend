@@ -73,6 +73,7 @@ export class SermonsService {
       queryOptions.skip = 1;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const sermons = await this.prisma.sermon.findMany(queryOptions);
 
     const hasNextPage = sermons.length > take;

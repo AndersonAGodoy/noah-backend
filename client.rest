@@ -1,8 +1,9 @@
 @baseUrl = http://localhost:3000
-
-GET {{baseUrl}}/sermons/?limit=10&eventType=culto
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDUyNjIwMjQsImV4cCI6MTc0NTI2NTYyNH0.w_iMo2ymZcGpef8V16bbxEH-d3FMr7f0i9Znn-EEm3Y
+GET {{baseUrl}}/sermons/?limit=10
+Authorization: Bearer {{token}}
 ###
-GET {{baseUrl}}/sermons/cm9mti6n500002l2ghx7rg7kk
+GET {{baseUrl}}/sermons/cm9r4o6fl00082lagcqwn3j32
 ###
 POST {{baseUrl}}/sermons
 Content-Type: application/json
@@ -37,24 +38,7 @@ Content-Type: application/json
         {
             "type": "citação",
             "content": "Citação"
-            
-        },
-       
-        {
-            "type": "parágrafo",
-            "content": "Outro Paragrafo"
-            
-        },
-        {
-            "type": "header",
-            "content": "Outro header"
-            
-        },
-        {
-            "type": "citação",
-            "content": "Outra Citação"
         }
-     
     ]
 }
 ###
@@ -67,6 +51,79 @@ Content-Type: application/json
 }
 
 ###
+PATCH {{baseUrl}}/sermons/cm9r4o6fl00082lagcqwn3j32
+Content-Type: application/json
+
+{
+    "title": "Sermão",
+    "description": "Descrição do sermão",
+    "speaker": "Pastor Bruno",
+    "duration": "45 minutos",
+    "date": "20 de Abril",
+    "time": "10:00",
+    "eventType": "evento",
+    "references": [
+        {
+            "reference": "João 3:16",
+            "text": "Referência Bíblica"
+        }
+    ],
+    "contentSections": [
+        {
+            "type": "parágrafo",
+            "content": "Paragrafo"
+        },
+        {
+            "type": "header",
+            "content": "Header"
+        },
+        {
+            "type": "citação",
+            "content": "Citação"
+        },
+       
+        {
+            "type": "parágrafo",
+            "content": "Outro Paragrafo"
+        },
+        {
+            "type": "header",
+            "content": "Outro header"
+        },
+        {
+            "type": "citação",
+            "content": "Outra Citação"
+        }
+    ]
+}
+
+###
 DELETE {{baseUrl}}/sermons/63852226-993e-4b6e-a865-6ed3420ccd2d
 
 
+###
+#Usuários
+
+GET {{baseUrl}}/users
+
+###
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "email": "pastor@noah.com.br",
+    "password": "123456" 
+}
+###
+GET {{baseUrl}}/users/63852226-993e-4b6e-a865-6ed3420ccd2d
+
+
+###
+#Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "pastor@noah.com.br",
+    "password": "123456"
+}
