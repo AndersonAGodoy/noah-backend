@@ -1,0 +1,72 @@
+@baseUrl = http://localhost:3000
+
+GET {{baseUrl}}/sermons/?limit=10&eventType=culto
+###
+GET {{baseUrl}}/sermons/cm9mti6n500002l2ghx7rg7kk
+###
+POST {{baseUrl}}/sermons
+Content-Type: application/json
+
+{
+    "title": "Sermão",
+    "description": "Descrição do sermão",
+    "speaker": "Pastor Bruno",
+    "duration": "45 minutos",
+    "date": "20 de Abril",
+    "time": "10:00",
+    "eventType": "evento",
+    "references": [
+        {
+            "reference": "João 3:16",
+            "text": "Referência Bíblica"
+        },
+        {
+            "reference": "João 3:17",
+            "text": "Outra referencia bíblica"
+        }
+    ],
+    "contentSections": [
+        {
+            "type": "parágrafo",
+            "content": "Paragrafo"
+        },
+        {
+            "type": "header",
+            "content": "Header"
+        },
+        {
+            "type": "citação",
+            "content": "Citação"
+            
+        },
+       
+        {
+            "type": "parágrafo",
+            "content": "Outro Paragrafo"
+            
+        },
+        {
+            "type": "header",
+            "content": "Outro header"
+            
+        },
+        {
+            "type": "citação",
+            "content": "Outra Citação"
+        }
+     
+    ]
+}
+###
+
+PATCH {{baseUrl}}/sermons/cm9pu1zp700002l3o05iwqv3x/publish
+Content-Type: application/json
+
+{
+    "published": true
+}
+
+###
+DELETE {{baseUrl}}/sermons/63852226-993e-4b6e-a865-6ed3420ccd2d
+
+
