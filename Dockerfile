@@ -1,13 +1,25 @@
-FROM node:18-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# 1. Instala dependências de sistema
+RUN apk add --no-cache openssl postgresql-client
 
+# 2. Copia e instala dependências (cache otimizado)
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma/
+RUN npm ci --omit=dev && npx prisma generate
+
+# 3. Copia o aplicativo
 COPY . .
 
-RUN npx prisma generate
-RUN npm run build
+# 4. Script de espera (com permissões)
+COPY wait-for-db.sh ./
+RUN chmod +x wait-for-db.sh
 
-CMD ["node", "dist/main"]
+# 5. COMANDO PRINCIPAL (recomendado)
+CMD ["./wait-for-db.sh"]
+
+# Ou, se precisar de flexibilidade:
+# ENTRYPOINT ["./wait-for-db.sh"]
+# CMD ["npm", "run", "start:prod"]
