@@ -10,7 +10,7 @@ COPY package.json package-lock.json* ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 
 # 3. Gera o Prisma Client durante o build
-RUN npm ci --omit=dev && \
+RUN npm ci && \
     npx prisma generate
 
 # 4. Copia o resto da aplicação
