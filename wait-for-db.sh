@@ -18,6 +18,6 @@ if [ $max_retries -eq 0 ]; then
   exit 1
 fi
 
-echo "✅ PostgreSQL pronto!"
+echo "✅ PostgreSQL pronto."
 npx prisma migrate deploy
 exec npm run start:prod
