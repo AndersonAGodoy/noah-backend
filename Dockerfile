@@ -18,8 +18,8 @@ COPY wait-for-db.sh ./
 RUN chmod +x wait-for-db.sh
 
 # 5. COMANDO PRINCIPAL (recomendado)
-CMD ["./wait-for-db.sh"]
+#CMD ["./wait-for-db.sh"]
 
 # Ou, se precisar de flexibilidade:
-# ENTRYPOINT ["./wait-for-db.sh"]
-# CMD ["npm", "run", "start:prod"]
+ ENTRYPOINT ["./wait-for-db.sh"]
+ CMD ["npm", "run", "start:prod"]
