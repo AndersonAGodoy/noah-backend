@@ -3,12 +3,12 @@ FROM node:22-alpine
 WORKDIR /app
 
 # 1. Instala dependências de sistema
-RUN apk add --no-cache openssl postgresql-client
+RUN apk add --no-cache openssl 
 
 # 2. Copia e instala dependências (cache otimizado)
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma/
-RUN npm ci --omit=dev && npx prisma generate
+RUN npm ci && npx prisma generate
 
 # 3. Copia o aplicativo
 COPY . .
