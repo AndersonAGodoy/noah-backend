@@ -10,9 +10,9 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   login(@Request() req, @Res({ passthrough: true }) res: Response) {
-    const token = this.authService.login(req); // Supondo que retorne o JWT
+    const { access_token } = this.authService.login(req.user); // Supondo que retorne o JWT
 
-    res.cookie('token', token, {
+    res.cookie('token', access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
