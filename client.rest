@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3001
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDUyNjIwMjQsImV4cCI6MTc0NTI2NTYyNH0.w_iMo2ymZcGpef8V16bbxEH-d3FMr7f0i9Znn-EEm3Y
 GET {{baseUrl}}/sermons/?limit=10
 Authorization: Bearer {{token}}
