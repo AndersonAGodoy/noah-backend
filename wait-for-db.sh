@@ -2,24 +2,22 @@
 set -e
 
 host="postgres"
-user="${DB_USER:-postgres}"
-db="${DB_NAME:-postgres}"
+user="${POSTGRES_USER}"
+db="${POSTGRES_DB}"
 max_retries=10
-attempt=0
 
-echo "🔄 Aguardando PostgreSQL em $host..."
-
-until PGPASSWORD="${DB_PASSWORD}" psql -h "$host" -U "$user" -d "$db" -c '\q' >/dev/null 2>&1 || [ $attempt -eq $max_retries ]; do
-  attempt=$((attempt+1))
-  echo "⏳ Tentativa $attempt/$max_retries..."
-  sleep 5
+echo "🔌 Aguardando PostgreSQL em $host..."
+until PGPASSWORD="${POSTGRES_PASSWORD}" psql -h "$host" -U "$user" -d "$db" -c '\q' >/dev/null 2>&1 || [ $max_retries -eq 0 ]; do
+  sleep 2
+  max_retries=$((max_retries-1))
+  echo "⌛ ($max_retries tentativas restantes)"
 done
 
-if [ $attempt -eq $max_retries ]; then
-  echo "❌ Falha ao conectar ao PostgreSQL após $max_retries tentativas"
+if [ $max_retries -eq 0 ]; then
+  echo "❌ PostgreSQL não está respondendo após 10 tentativas"
   exit 1
 fi
 
 echo "✅ PostgreSQL pronto!"
 npx prisma migrate deploy
-exec "$@"  # Importante para rodar o comando principal (CMD)
+exec npm run start:prod
