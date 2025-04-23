@@ -21,5 +21,5 @@ ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
 
-# 6. Comando otimizado para o Dokploy
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run start:prod"]
+# 6. Comando otimizado para o Dokploy com espera pela database
+CMD ["sh", "-c", "until pg_isready -h 149.102.156.190 -p 5433; do echo 'Waiting for database...'; sleep 2; done && npx prisma migrate deploy && npm run start:prod"]
