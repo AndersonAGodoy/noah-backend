@@ -22,5 +22,5 @@ COPY wait-for-db.sh ./
 RUN chmod +x wait-for-db.sh
 
 # 6. Entrypoint e comando
-ENTRYPOINT ["./wait-for-db.sh"]
-CMD ["npm", "run", "start:prod"]
+# ENTRYPOINT ["./wait-for-db.sh"]
+# CMD ["npm", "run", "start:prod"]
