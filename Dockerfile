@@ -27,4 +27,4 @@ EXPOSE 3000
 
 # 7. Entrypoint e comando (O Dokploy geralmente injeta variáveis automaticamente)
 # ENTRYPOINT ["./wait-for-db.sh"]
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start"]
