@@ -14,12 +14,12 @@ RUN npm ci && npx prisma generate
 COPY . .
 
 # 4. Script de espera (com permissões)
-COPY wait-for-db.sh ./
-RUN chmod +x wait-for-db.sh
+# COPY wait-for-db.sh ./
+# RUN chmod +x wait-for-db.sh
 
 # 5. COMANDO PRINCIPAL (recomendado)
-CMD ["./wait-for-db.sh"]
+# CMD ["./wait-for-db.sh"]
 
 # Ou, se precisar de flexibilidade:
 # ENTRYPOINT ["./wait-for-db.sh"]
-# CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:prod"]
