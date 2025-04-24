@@ -1,25 +1,33 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 # 1. Instala dependências de sistema
-RUN apk add --no-cache openssl 
+RUN apk add --no-cache openssl python3 make g++
 
 # 2. Copia e instala dependências (cache otimizado)
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma/
-RUN npm ci && npx prisma generate
+RUN npm ci --only=production && npx prisma generate
 
-# 3. Copia o aplicativo
+# 3. Copia o resto da aplicação e faz build
 COPY . .
+RUN npm run build  # Adicione este passo se seu projeto precisa de compilação
 
-# 4. Script de espera (com permissões)
-# COPY wait-for-db.sh ./
-# RUN chmod +x wait-for-db.sh
+# ----------------------------------------
+FROM node:22-alpine AS production
 
-# 5. COMANDO PRINCIPAL (recomendado)
-# CMD ["./wait-for-db.sh"]
+WORKDIR /app
 
-# Ou, se precisar de flexibilidade:
-# ENTRYPOINT ["./wait-for-db.sh"]
-CMD ["npm", "run", "start:prod"]
+# Copia apenas o necessário da etapa de build
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist      # Se usar TypeScript
+COPY --from=builder /app/prisma ./prisma
+
+# 4. Configura variáveis de ambiente
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# 5. Comando de execução
+CMD ["node", "dist/main.js"]  # Ajuste conforme seu ponto de entrada
