@@ -12,7 +12,7 @@ RUN npm ci --only=production && npx prisma generate
 
 # 3. Copia o resto da aplicação e faz build
 COPY . .
-RUN npm run build  # Adicione este passo se seu projeto precisa de compilação
+RUN npm run build  
 
 # ----------------------------------------
 FROM node:22-alpine AS production
