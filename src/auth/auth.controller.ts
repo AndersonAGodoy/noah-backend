@@ -20,8 +20,8 @@ export class AuthController {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.cookie('token', access_token, {
       httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       maxAge: 60 * 60 * 24 * 1000, // 1 day
       path: '/',
     });
