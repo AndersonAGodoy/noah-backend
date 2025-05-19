@@ -4,8 +4,16 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const allowedOrigins = process.env.FRONTEND_URL?.split(',')||[];
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL, // origem do seu frontend
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS bloqueado para origem: ${origin}`));
+      }
+    }, // origem do seu frontend
     credentials: true, // se for usar cookies/autenticação
   });
   await app.listen(process.env.PORT ?? 3000);
